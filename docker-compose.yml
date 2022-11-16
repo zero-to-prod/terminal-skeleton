@@ -1,8 +1,7 @@
 version: "3.9"
 
 services:
-  frontend-app-install:
-    container_name: frontend-app-install
+  frontend-install:
     build:
       context: .
       dockerfile: Dockerfile-frontend-install
@@ -10,21 +9,46 @@ services:
       - node_modules:/node_modules
       - ./frontend:/app
     command: npm install
-  frontend-app:
-    container_name: frontend-app
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile-frontend
     depends_on:
-      - frontend-app-install
+      - frontend-install
     volumes:
       - node_modules:/node_modules
       - ./frontend:/app
     ports:
       - '3000:3000'
     command: npm run dev
+  backend-install:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend-install
+    volumes:
+      - vendor:/vendor
+      - ./backend:/app
+    command: composer install
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    depends_on:
+      - backend-install
+    volumes:
+      - vendor:/vendor
+      - ./backend:/app
+    ports:
+      - '3003:3003'
+    command: php artisan serve
 volumes:
   node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /app
+  vendor:
     driver: local
     driver_opts:
       type: none

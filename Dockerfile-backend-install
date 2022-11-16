@@ -1,0 +1,19 @@
+FROM php:8.1.2-fpm as php
+
+WORKDIR /app
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+RUN apt-get update \
+    && apt-get install -y nano \
+    && apt-get install --no-install-recommends -y zlib1g-dev libpng-dev libzip-dev zip unzip libicu-dev libxml2-dev libonig-dev imagemagick \
+    && pecl install redis xdebug-3.1.5 \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl intl bcmath soap opcache \
+    && docker-php-ext-configure gd \
+    && docker-php-ext-install gd \
+    && docker-php-ext-enable redis \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+COPY /backend/. ./
+
+RUN composer install
