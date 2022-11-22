@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  frontend-install:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend-install
+    volumes:
+      - node_modules:/node_modules
+      - ./frontend:/app
+    command: npm install
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    depends_on:
+      - frontend-install
+    volumes:
+      - node_modules:/node_modules
+      - ./frontend:/app
+    command: npm run build
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    depends_on:
+      - frontend
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+    ports:
+      - '3000:80'
+volumes:
+  node_modules:
+    name: terminal-node_modules
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /app
