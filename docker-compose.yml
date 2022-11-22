@@ -39,8 +39,8 @@ services:
       - vendor:/vendor
       - ./backend:/app
     ports:
-      - '3003:3003'
-    command: php artisan serve
+      - '8000:8000'
+    command: php artisan serve --host=0.0.0.0
 volumes:
   node_modules:
     name: terminal-node_modules

@@ -3,6 +3,3 @@ FROM php:8.1.2-fpm as php
 WORKDIR /app
 
 COPY /backend/. ./
-
-EXPOSE 9000
-CMD ["php-fpm"]
