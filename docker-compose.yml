@@ -43,12 +43,14 @@ services:
     command: php artisan serve
 volumes:
   node_modules:
+    name: terminal-node_modules
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /app
   vendor:
+    name: terminal-vendor
     driver: local
     driver_opts:
       type: none
