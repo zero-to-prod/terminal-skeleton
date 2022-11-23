@@ -35,13 +35,31 @@ services:
       dockerfile: Dockerfile-backend
     depends_on:
       - backend-install
+      - mysql
     volumes:
       - vendor:/vendor
       - ./backend:/app
     ports:
       - '8000:8000'
     command: php artisan serve --host=0.0.0.0
+    networks:
+      - terminal
+  mysql:
+    image: mariadb:10.4
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: officedot2
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - terminal
+    ports:
+      - "3306:3306"
 volumes:
+  dbdata:
   node_modules:
     name: terminal-node_modules
     driver: local
@@ -56,3 +74,6 @@ volumes:
       type: none
       o: bind
       device: /app
+networks:
+  terminal:
+    driver: bridge
