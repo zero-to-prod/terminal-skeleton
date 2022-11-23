@@ -51,15 +51,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_DATABASE: officedot2
+      MYSQL_DATABASE: terminal
     volumes:
-      - dbdata:/var/lib/mysql
+      - database:/var/lib/mysql
     networks:
       - terminal
     ports:
       - "3306:3306"
 volumes:
-  dbdata:
+  database:
   node_modules:
     name: terminal-node_modules
     driver: local
