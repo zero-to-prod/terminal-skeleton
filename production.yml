@@ -1,20 +1,20 @@
 version: "3.9"
 
 services:
-  frontend-install:
-    build:
-      context: .
-      dockerfile: Dockerfile-frontend
-    volumes:
-      - node_modules:/node_modules
-      - ./frontend:/app
-    command: npm install
+#  frontend-install:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-frontend
+#    volumes:
+#      - node_modules:/node_modules
+#      - ./frontend:/app
+#    command: npm install
   frontend:
     build:
       context: .
       dockerfile: Dockerfile-frontend
-    depends_on:
-      - frontend-install
+#    depends_on:
+#      - frontend-install
     volumes:
       - node_modules:/node_modules
       - ./frontend:/app
