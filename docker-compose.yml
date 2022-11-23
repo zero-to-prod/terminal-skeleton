@@ -4,7 +4,7 @@ services:
   frontend-install:
     build:
       context: .
-      dockerfile: Dockerfile-frontend-install
+      dockerfile: Dockerfile-frontend
     volumes:
       - node_modules:/node_modules
       - ./frontend:/app
@@ -24,7 +24,7 @@ services:
   backend-install:
     build:
       context: .
-      dockerfile: Dockerfile-backend-install
+      dockerfile: Dockerfile-backend
     volumes:
       - vendor:/vendor
       - ./backend:/app
