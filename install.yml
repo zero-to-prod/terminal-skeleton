@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  frontend-install:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    volumes:
+      - node_modules:/node_modules
+      - ./frontend:/app
+    command: npm install
+  backend-install:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    volumes:
+      - vendor:/vendor
+      - ./backend:/app
+    command: composer install
+volumes:
+  node_modules:
+    name: terminal-node_modules
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /app
+  vendor:
+    name: terminal-vendor
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /app

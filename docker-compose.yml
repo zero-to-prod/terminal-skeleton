@@ -1,40 +1,21 @@
 version: "3.9"
 
 services:
-  frontend-install:
-    build:
-      context: .
-      dockerfile: Dockerfile-frontend
-    volumes:
-      - node_modules:/node_modules
-      - ./frontend:/app
-    command: npm install
   frontend:
     build:
       context: .
       dockerfile: Dockerfile-frontend
-    depends_on:
-      - frontend-install
     volumes:
       - node_modules:/node_modules
       - ./frontend:/app
     ports:
       - '5173:5173'
     command: npm run dev
-  backend-install:
-    build:
-      context: .
-      dockerfile: Dockerfile-backend
-    volumes:
-      - vendor:/vendor
-      - ./backend:/app
-    command: composer install
   backend:
     build:
       context: .
       dockerfile: Dockerfile-backend
     depends_on:
-      - backend-install
       - mysql
     volumes:
       - vendor:/vendor
